@@ -58,26 +58,19 @@ void create(){
         random_shuffle(vec.begin(), vec.end());
         sudoku[x]=vec;
         for(int y=0;y<4;y++){
-			if(sudoku[x][y]==sudoku[x-1][y]){
-				random_shuffle(vec.begin(), vec.end());
-				sudoku[x]=vec;
-				y=-1;
-				continue;
-			}
-
-            if(sudoku[x][y]==sudoku[(x+1)%4][y] || sudoku[x][y]==sudoku[(x+2)%4][y] || sudoku[x][y]==sudoku[(x+3)%4][y]){
+			if(sudoku[x][y]==sudoku[(x+1)%4][y] || sudoku[x][y]==sudoku[(x+2)%4][y] || sudoku[x][y]==sudoku[(x+3)%4][y]){
                 y=-1;
                 random_shuffle(vec.begin(), vec.end());
                 sudoku[x]=vec;
             }
         }
     }
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
-            cout<<sudoku[i][j]<<" ";
-        }
-        cout<<endl;
-    }
+    // for(int i=0;i<4;i++){
+    //     for(int j=0;j<4;j++){
+    //         cout<<sudoku[i][j]<<" ";
+    //     }
+    //     cout<<endl;
+    // }
 }
 
 void printQuestion(){
@@ -138,7 +131,6 @@ int main(){
 	int complete = 0;
 	int x = 0;
 	int y = 0;
-
 	makeQ();
 	cout << "choose spaces (x(row) and y(column))\n";
 	cout << "the maximum of x and y is 5\n";
@@ -148,7 +140,7 @@ int main(){
 			ErrorOfFillinOutOfRange();
 			continue;
 		}
-		if(sudoku[x-1][y-1]!=0){
+		if(blank[x-1][y-1]!=1){
 			ErrorOfFillinAlreadyExit();
 			continue;
 		}
@@ -156,8 +148,6 @@ int main(){
 		printQuestion();
 		complete=check();
 	}while(complete!=1);
-		
-	// goto START;
-		
+	// goto START;	
 	return 0;
 } 
