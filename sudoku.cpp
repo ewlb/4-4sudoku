@@ -2,7 +2,7 @@
 using namespace std;
 
 int spaces = 0;
-vector<vector<int> > sizef;
+vector<vector<int> > sudoku;
 bool blank[4][4]{};
 const string red("\033[;31m");
 const string yellow("\033[0;33m");
@@ -30,8 +30,8 @@ void Spaces(int n){
 		while(true){
 			x = rand()%4;
 			y = rand()%4;
-			if(sizef[x][y]!=0){
-				sizef[x][y]=0;
+			if(sudoku[x][y]!=0){
+				sudoku[x][y]=0;
 				blank[x][y] = 1;
 				break;
 			}
@@ -43,38 +43,38 @@ void fillin(int x,int y){
 	int answer=0;
 	cout <<"filling the answer, your answer is: ";
 	cin >> answer;
-	sizef[x][y]=answer;
+	sudoku[x][y]=answer;
 }
 
 void create(){
     vector<int> vec={1, 2, 3, 4};
-    sizef.resize(4);
+    sudoku.resize(4);
     for(int i=0;i<4;i++)
-        sizef[i].resize(4, 0);
+        sudoku[i].resize(4, 0);
     srand(time(NULL));
     random_shuffle(vec.begin(), vec.end());
-    sizef[0]=vec;
+    sudoku[0]=vec;
     for(int x=1;x<4;x++){
         random_shuffle(vec.begin(), vec.end());
-        sizef[x]=vec;
+        sudoku[x]=vec;
         for(int y=0;y<4;y++){
-			if(sizef[x][y]==sizef[x-1][y]){
+			if(sudoku[x][y]==sudoku[x-1][y]){
 				random_shuffle(vec.begin(), vec.end());
-				sizef[x]=vec;
+				sudoku[x]=vec;
 				y=-1;
 				continue;
 			}
 
-            if(sizef[x][y]==sizef[(x+1)%4][y] || sizef[x][y]==sizef[(x+2)%4][y] || sizef[x][y]==sizef[(x+3)%4][y]){
+            if(sudoku[x][y]==sudoku[(x+1)%4][y] || sudoku[x][y]==sudoku[(x+2)%4][y] || sudoku[x][y]==sudoku[(x+3)%4][y]){
                 y=-1;
                 random_shuffle(vec.begin(), vec.end());
-                sizef[x]=vec;
+                sudoku[x]=vec;
             }
         }
     }
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
-            cout<<sizef[i][j]<<" ";
+            cout<<sudoku[i][j]<<" ";
         }
         cout<<endl;
     }
@@ -84,10 +84,10 @@ void printQuestion(){
 	for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
 			if(blank[i][j]){
-				cout << yellow << " " << sizef[i][j] << white ;
+				cout << yellow << " " << sudoku[i][j] << white ;
 			}
 			else
-				cout << " " << sizef[i][j];
+				cout << " " << sudoku[i][j];
 			if(j<3)
 				cout << " | ";
 			else
@@ -119,8 +119,8 @@ int check(){
 		sum[0][x]=0;
 		sum[1][x]=0;
 		for(int y=0;y<4;y++){
-			sum[0][x]+=sizef[x][y];
-			sum[1][x]+=sizef[y][x];
+			sum[0][x]+=sudoku[x][y];
+			sum[1][x]+=sudoku[y][x];
 		}	
 		if(sum[0][x]!=10 || sum[1][x]!=10){
 			cout << "not done yet\nchoose spaces (x and y) \n";
@@ -148,7 +148,7 @@ int main(){
 			ErrorOfFillinOutOfRange();
 			continue;
 		}
-		if(sizef[x-1][y-1]!=0){
+		if(sudoku[x-1][y-1]!=0){
 			ErrorOfFillinAlreadyExit();
 			continue;
 		}
